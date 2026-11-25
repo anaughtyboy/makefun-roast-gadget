@@ -22,6 +22,10 @@ if (ROAST.trim().length === 0) {
 if (ROAST.includes("\n") || ROAST.includes("\r")) {
   abort("roast must be one line");
 }
+// No invisible control characters: the line must be plain readable text.
+if (/[\u0000-\u001f\u007f]/.test(ROAST)) {
+  abort("roast contains control characters");
+}
 
 const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outputDir, { recursive: true });
